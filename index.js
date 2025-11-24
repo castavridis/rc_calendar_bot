@@ -1,0 +1,59 @@
+const express = require('express')
+const ics = require('ics')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.send('Hello Disco!')
+})
+
+
+// email server email constant
+
+// sample time: 2025-11-24T19:00:00+01:00 (Z or not)
+// Required data
+// time
+// event organizer email
+// event invitee email
+
+/**
+{
+time: "2025-11-24T19:00:00+01:00"
+organizer: "organizer@test.com"
+attendees: [
+  "attendee@test.com"
+]
+}
+  */
+
+// title (pairing | coffee) / zulip name
+app.get('/get_invite/',  (req, res) => {
+    const params = req.params
+    // Keep to UTC, may need to strip +
+    const calDate = new Date("2025-01-24T19:00:00+01:00");
+    const event = { 
+      start: [
+        calDate.getFullYear(),
+        calDate.getMonth(), 
+        calDate.getDay(), 
+        calDate.getHours(),
+        calDate.getMinutes(),
+      ],
+      organizer: { email: "organizer@test.com" },
+      attendees: [
+        { email: "attendee@test.com" },
+      ]
+    };
+    console.log(calDate, event.start, calDate.getMonth(), calDate.getUTCMonth());
+    const calInvite = ics.createEvent(event);
+    res.send(calInvite.value)
+    // download ICS
+    // email them ICS
+
+    // generate unique uuid for calendar invitation
+  // 
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
