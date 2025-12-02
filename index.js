@@ -36,7 +36,7 @@ attendees: [
 // Is it possible to add a button to the message bar?
 // 
 app.get('/get_invite/', (req, res) => {
-    const time = req.body.data
+  const time = "<time:2025-12-10T17:00:00+01:00>"
   const date = new Date(time.replace("<time:", "").replace(">", "")) 
   
   const recipients = req.body.message.display_recipient
