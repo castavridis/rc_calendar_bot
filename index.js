@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 // event organizer email
 // event invitee email
 
-/**
+/**025-01-
 {
 time: "2025-11-24T19:00:00+01:00"
 organizer: "organizer@test.com"
@@ -30,12 +30,12 @@ attendees: [
 app.get('/get_invite/',  (req, res) => {
     const params = req.params
     // Keep to UTC, may need to strip +
-    const calDate = new Date("2025-01-24T19:00:00+01:00");
+    const calDate = new Date("224T19:00:00+01:00");
     const event = { 
       start: [
         calDate.getFullYear(),
         calDate.getMonth(), 
-        calDate.getDay(), 
+        calDate.getDay(),
         calDate.getHours(),
         calDate.getMinutes(),
       ],
@@ -52,6 +52,10 @@ app.get('/get_invite/',  (req, res) => {
 
     // generate unique uuid for calendar invitation
   // 
+})
+
+app.post('/post_zulip_data/', (req, res, next) => {
+  console.log(req.body)
 })
 
 app.listen(port, () => {
