@@ -49,6 +49,7 @@ app.post('/post_zulip_data/', (req, res, next) => {
   };
   const calInvite = ics.createEvent(event);
   res.send(calInvite.value)
+  console.log(calInvite.value)
   // console.log(req.body.)
   
 })
