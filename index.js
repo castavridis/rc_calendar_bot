@@ -55,7 +55,7 @@ app.get('/get_invite/',  (req, res) => {
 })
 
 app.post('/post_zulip_data/', (req, res, next) => {
-  console.log(req.body)
+  console.log(req)
 })
 
 app.listen(port, () => {
