@@ -3,6 +3,8 @@ const ics = require('ics')
 const app = express()
 const port = 3000
 
+app.use(express.json())
+
 app.get('/', (req, res) => {
   res.send('Hello Disco!')
 })
@@ -55,7 +57,7 @@ app.get('/get_invite/',  (req, res) => {
 })
 
 app.post('/post_zulip_data/', (req, res, next) => {
-  console.log(req)
+  console.log(req.body)
 })
 
 app.listen(port, () => {
