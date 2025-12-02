@@ -38,9 +38,7 @@ attendees: [
 app.get('/get_invite/', (req, res) => {
   const time = "<time:2025-12-10T17:00:00+01:00>"
   const date = new Date(time.replace("<time:", "").replace(">", "")) 
-  
-  const recipients = req.body.message.display_recipient
-  const title = "Pairing: " + recipients.map(recipient => recipient.full_name).join(", ")
+  const title = "Pairing: "
 
   const event = { 
     start: date.getTime(), // .getTime() > UTC
