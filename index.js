@@ -34,9 +34,9 @@ attendees: [
 // Structure for bot input e.g. couches bot
 
 // Is it possible to add a button to the message bar?
-
-app.post('/post_zulip_data/', (req, res, next) => {
-  const time = "<time:2025-12-10T17:00:00+01:00>"
+// 
+app.get('/get_invite/', (req, res) => {
+    const time = req.body.data
   const date = new Date(time.replace("<time:", "").replace(">", "")) 
   
   const recipients = req.body.message.display_recipient
@@ -44,12 +44,29 @@ app.post('/post_zulip_data/', (req, res, next) => {
 
   const event = { 
     start: date.getTime(), // .getTime() > UTC
-    duration: { "minutes": 30 },
+    duration: { minutes: 30 },
     title,
   };
   const calInvite = ics.createEvent(event);
   res.send(calInvite.value)
-  console.log(calInvite.value)
+})
+
+app.post('/post_zulip_data/', (req, res, next) => {
+  const time = req.body.data
+  const date = new Date(time.replace("<time:", "").replace(">", "")) 
+  
+  const recipients = req.body.message.display_recipient
+  const title = "Pairing: " + recipients.map(recipient => recipient.full_name).join(", ")
+
+  const event = { 
+    start: date.getTime(), // .getTime() > UTC
+    duration: { minutes: 30 },
+    title,
+  };
+  const calInvite = ics.createEvent(event);
+  res.send({
+    "ics_data": JSON.stringify(calInvite.value)
+  })
   // console.log(req.body.)
   
 })
