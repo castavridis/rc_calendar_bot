@@ -29,35 +29,28 @@ attendees: [
   */
 
 // title (pairing | coffee) / zulip name
-app.get('/get_invite/',  (req, res) => {
-    const params = req.params
-    // Keep to UTC, may need to strip +
-    const calDate = new Date("224T19:00:00+01:00");
-    const event = { 
-      start: [
-        calDate.getFullYear(),
-        calDate.getMonth(), 
-        calDate.getDay(),
-        calDate.getHours(),
-        calDate.getMinutes(),
-      ],
-      organizer: { email: "organizer@test.com" },
-      attendees: [
-        { email: "attendee@test.com" },
-      ]
-    };
-    console.log(calDate, event.start, calDate.getMonth(), calDate.getUTCMonth());
-    const calInvite = ics.createEvent(event);
-    res.send(calInvite.value)
-    // download ICS
-    // email them ICS
 
-    // generate unique uuid for calendar invitation
-  // 
-})
+// NOTE: Zulip <time: format == <time:2025-12-10T17:00:00+01:00>
+// Structure for bot input e.g. couches bot
+
+// Is it possible to add a button to the message bar?
 
 app.post('/post_zulip_data/', (req, res, next) => {
-  console.log(req.body)
+  const time = "<time:2025-12-10T17:00:00+01:00>"
+  const date = new Date(time.replace("<time:", "").replace(">", "")) 
+  
+  const recipients = req.body.message.display_recipient
+  const title = "Pairing: " + recipients.map(recipient => recipient.full_name).join(", ")
+
+  const event = { 
+    start: date.getTime(), // .getTime() > UTC
+    duration: { "minutes": 30 },
+    title,
+  };
+  const calInvite = ics.createEvent(event);
+  res.send(calInvite.value)
+  // console.log(req.body.)
+  
 })
 
 app.listen(port, () => {
